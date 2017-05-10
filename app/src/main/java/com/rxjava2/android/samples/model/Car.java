@@ -1,9 +1,8 @@
 package com.rxjava2.android.samples.model;
 
-import java.util.concurrent.Callable;
-
 import io.reactivex.Observable;
-import io.reactivex.ObservableSource;
+import io.reactivex.ObservableEmitter;
+import io.reactivex.ObservableOnSubscribe;
 
 /**
  * Created by amitshekhar on 30/08/16.
@@ -17,12 +16,19 @@ public class Car {
     }
 
     public Observable<String> brandDeferObservable() {
-        return Observable.defer(new Callable<ObservableSource<? extends String>>() {
+       return Observable.create(new ObservableOnSubscribe<String>() {
             @Override
-            public ObservableSource<? extends String> call() throws Exception {
-                return Observable.just(brand);
+            public void subscribe(ObservableEmitter<String> e) throws Exception {
+                e.onNext(brand);
+                e.onComplete();
             }
         });
+//        return Observable.defer(new Callable<ObservableSource<? extends String>>() {
+//            @Override
+//            public ObservableSource<? extends String> call() throws Exception {
+//                return Observable.just(brand);
+//            }
+//        });
     }
 
 }

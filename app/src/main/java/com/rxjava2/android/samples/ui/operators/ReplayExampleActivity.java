@@ -10,12 +10,14 @@ import android.widget.TextView;
 import com.rxjava2.android.samples.R;
 import com.rxjava2.android.samples.utils.AppConstant;
 
+import io.reactivex.Observable;
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.observables.ConnectableObservable;
 import io.reactivex.subjects.PublishSubject;
 
 /**
+ * replay可以得到一个可连接的Observable，连接之后，即使在发送消息之后订阅他，依然能收到N跳消息
  * Created by amitshekhar on 27/08/16.
  */
 public class ReplayExampleActivity extends AppCompatActivity {
@@ -44,8 +46,9 @@ public class ReplayExampleActivity extends AppCompatActivity {
      */
     private void doSomeWork() {
 
+
         PublishSubject<Integer> source = PublishSubject.create();
-        ConnectableObservable<Integer> connectableObservable = source.replay(3); // bufferSize = 3 to retain 3 values to replay
+        ConnectableObservable<Integer> connectableObservable = source.replay(4); // bufferSize = 3 to retain 3 values to replay
         connectableObservable.connect(); // connecting the connectableObservable
 
         connectableObservable.subscribe(getFirstObserver());
@@ -59,6 +62,8 @@ public class ReplayExampleActivity extends AppCompatActivity {
         /*
          * it will emit 2, 3, 4 as (count = 3), retains the 3 values for replay
          */
+        connectableObservable.subscribe(getSecondObserver());
+
         connectableObservable.subscribe(getSecondObserver());
 
     }
