@@ -15,6 +15,7 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.subjects.ReplaySubject;
 
 /**
+ * 之后注册的接受者依旧可以接收到之前发送的数据
  * Created by amitshekhar on 17/12/16.
  */
 
@@ -45,19 +46,20 @@ public class ReplaySubjectExampleActivity extends AppCompatActivity {
     private void doSomeWork() {
 
         ReplaySubject<Integer> source = ReplaySubject.create();
-
-        source.subscribe(getFirstObserver()); // it will get 1, 2, 3, 4
-
         source.onNext(1);
         source.onNext(2);
         source.onNext(3);
         source.onNext(4);
-        source.onComplete();
+//        source.onComplete();
+        source.subscribe(getFirstObserver()); // it will get 1, 2, 3, 4
+
+
 
         /*
          * it will emit 1, 2, 3, 4 for second observer also as we have used replay
          */
         source.subscribe(getSecondObserver());
+        source.onNext(4);
 
     }
 

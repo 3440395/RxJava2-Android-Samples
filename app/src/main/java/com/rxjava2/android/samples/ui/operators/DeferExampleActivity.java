@@ -16,6 +16,7 @@ import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
 
 /**
+ * defer使得在订阅的时候才创建Observable
  * Created by amitshekhar on 30/08/16.
  */
 public class DeferExampleActivity extends AppCompatActivity {

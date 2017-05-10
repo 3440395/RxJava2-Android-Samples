@@ -16,6 +16,7 @@ import io.reactivex.SingleObserver;
 import io.reactivex.disposables.Disposable;
 
 /**
+ * 如果发送了空内容，则发送last的参数，否则发送最后一条
  * Created by techteam on 13/09/16.
  */
 public class LastOperatorExampleActivity extends AppCompatActivity {
@@ -41,12 +42,12 @@ public class LastOperatorExampleActivity extends AppCompatActivity {
     }
 
     private void doSomeWork() {
-        getObservable().last("A1") // the default item ("A1") to emit if the source ObservableSource is empty
+        getObservable().last("内容是空的") // the default item ("A1") to emit if the source ObservableSource is empty
                 .subscribe(getObserver());
     }
 
     private Observable<String> getObservable() {
-        return Observable.just("A1", "A2", "A3", "A4", "A5", "A6");
+        return Observable.empty();
     }
 
     private SingleObserver<String> getObserver() {

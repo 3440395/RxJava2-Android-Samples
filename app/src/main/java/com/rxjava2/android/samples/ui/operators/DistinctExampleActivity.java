@@ -16,6 +16,7 @@ import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
 
 /**
+ * 过滤重复元素
  * Created by techteam on 13/09/16.
  */
 public class DistinctExampleActivity extends AppCompatActivity {
@@ -47,13 +48,25 @@ public class DistinctExampleActivity extends AppCompatActivity {
                 .subscribe(getObserver());
     }
 
-    private Observable<Integer> getObservable() {
-        return Observable.just(1, 2, 1, 1, 2, 3, 4, 6, 4);
+    private Observable<User> getObservable() {
+        User user1 = new User();
+        User user2 = new User();
+        User user3 = new User();
+        User user4 = new User();
+        User user5 = new User();
+        User user55 = new User();
+        user1.value=1;
+        user2.value=2;
+        user3.value=3;
+        user4.value=4;
+        user5.value=5;
+        user55.value=5;
+        return Observable.just(user1, user2, user1, user4, user1, user3,user5,user55);
     }
 
 
-    private Observer<Integer> getObserver() {
-        return new Observer<Integer>() {
+    private Observer<User> getObserver() {
+        return new Observer<User>() {
 
             @Override
             public void onSubscribe(Disposable d) {
@@ -61,7 +74,7 @@ public class DistinctExampleActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onNext(Integer value) {
+            public void onNext(User value) {
                 textView.append(" onNext : value : " + value);
                 textView.append(AppConstant.LINE_SEPARATOR);
                 Log.d(TAG, " onNext value : " + value);
@@ -77,5 +90,14 @@ public class DistinctExampleActivity extends AppCompatActivity {
                 Log.d(TAG, " onComplete");
             }
         };
+    }
+
+    class User{
+        int value;
+
+        @Override
+        public String toString() {
+            return "user is "+value;
+        }
     }
 }

@@ -44,6 +44,7 @@ public class NetworkingActivity extends AppCompatActivity {
      * Map Operator Example
      */
     public void map(View view) {
+        Log.e(TAG,"map");
         Rx2AndroidNetworking.get("https://fierce-cove-29863.herokuapp.com/getAnUser/{userId}")
                 .addPathParameter("userId", "1")
                 .build()
