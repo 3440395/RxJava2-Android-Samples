@@ -16,6 +16,7 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.BiFunction;
 
 /**
+ * reduce将一组序列中的数据俩俩进行函数操作，操作的结果与下一次进行操作
  * Created by amitshekhar on 27/08/16.
  */
 public class ReduceExampleActivity extends AppCompatActivity {
@@ -47,6 +48,7 @@ public class ReduceExampleActivity extends AppCompatActivity {
                 .reduce(new BiFunction<Integer, Integer, Integer>() {
                     @Override
                     public Integer apply(Integer t1, Integer t2) {
+                        Log.e(TAG,"apply"+t1+"  "+t2);
                         return t1 + t2;
                     }
                 })
@@ -54,7 +56,7 @@ public class ReduceExampleActivity extends AppCompatActivity {
     }
 
     private Observable<Integer> getObservable() {
-        return Observable.just(1, 2, 3, 4);
+        return Observable.just(10, 11, 12, 13);
     }
 
     private MaybeObserver<Integer> getObserver() {

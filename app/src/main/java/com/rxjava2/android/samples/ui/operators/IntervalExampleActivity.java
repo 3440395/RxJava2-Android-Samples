@@ -19,6 +19,7 @@ import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.Schedulers;
 
 /**
+ * 循环发送消息 最好结合CompositeDisposable使用，activity销毁之后 clear
  * Created by amitshekhar on 27/08/16.
  */
 public class IntervalExampleActivity extends AppCompatActivity {

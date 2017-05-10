@@ -21,6 +21,8 @@ import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.Schedulers;
 
 /**
+ * DisposableObserver是一个observer，实现了disposable接口，实现该接口的类可以被关闭，调用dispose之后，就会被关闭，就收不到消息了
+ * * 把DisposableObserver添加到CompositeDisposable中，可以统一管理
  * Created by amitshekhar on 27/08/16.
  */
 public class DisposableExampleActivity extends AppCompatActivity {
@@ -56,6 +58,10 @@ public class DisposableExampleActivity extends AppCompatActivity {
      * disposables is cleared in onDestroy of this activity.
      */
     void doSomeWork() {
+
+        // Run on a background thread
+// Be notified on the main thread
+// do not send event after activity has been destroyed
         disposables.add(sampleObservable()
                 // Run on a background thread
                 .subscribeOn(Schedulers.io())
@@ -67,6 +73,9 @@ public class DisposableExampleActivity extends AppCompatActivity {
                         textView.append(" onComplete");
                         textView.append(AppConstant.LINE_SEPARATOR);
                         Log.d(TAG, " onComplete");
+
+                        disposables.clear(); // do not send event after activity has been destroyed
+
                     }
 
                     @Override
@@ -86,6 +95,8 @@ public class DisposableExampleActivity extends AppCompatActivity {
     }
 
     static Observable<String> sampleObservable() {
+        Observable observable;
+
         return Observable.defer(new Callable<ObservableSource<? extends String>>() {
             @Override
             public ObservableSource<? extends String> call() throws Exception {

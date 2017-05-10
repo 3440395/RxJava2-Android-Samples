@@ -13,7 +13,9 @@ import com.rxjava2.android.samples.utils.AppConstant;
 import io.reactivex.Observable;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 
 /**
@@ -45,6 +47,12 @@ public class SimpleExampleActivity extends AppCompatActivity {
      */
     private void doSomeWork() {
         getObservable()
+                .map(new Function<String, String>() {
+                    @Override
+                    public String apply(@NonNull String s) throws Exception {
+                        return s+"被处理";
+                    }
+                })
                 // Run on a background thread
                 .subscribeOn(Schedulers.io())
                 // Be notified on the main thread

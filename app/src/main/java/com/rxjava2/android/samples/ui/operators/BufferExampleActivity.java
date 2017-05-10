@@ -17,6 +17,8 @@ import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
 
 /**
+ * BUFFER  把一个序列打包成集合，然后分批发出去
+ * 比如一个序列1 2 3 4 5 6 应该分6次发出去  现在buffer（x,y），表示分几次发出，每次发x个，第二次的第一个是第一次第一个往后y个
  * Created by amitshekhar on 27/08/16.
  */
 public class BufferExampleActivity extends AppCompatActivity {
@@ -45,7 +47,8 @@ public class BufferExampleActivity extends AppCompatActivity {
      */
     private void doSomeWork() {
 
-        Observable<List<String>> buffered = getObservable().buffer(3, 1);
+        Observable<List<String>> buffered = getObservable()
+                .buffer(3);
 
         // 3 means,  it takes max of three from its start index and create list
         // 1 means, it jumps one step every time

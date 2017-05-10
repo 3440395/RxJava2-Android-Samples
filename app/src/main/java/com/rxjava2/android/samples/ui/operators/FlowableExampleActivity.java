@@ -44,6 +44,7 @@ public class FlowableExampleActivity extends AppCompatActivity {
      */
     private void doSomeWork() {
 
+
         Flowable<Integer> observable = Flowable.just(1, 2, 3, 4);
 
         observable.reduce(50, new BiFunction<Integer, Integer, Integer>() {

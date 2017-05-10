@@ -12,7 +12,11 @@ import com.rxjava2.android.samples.utils.AppConstant;
 
 import io.reactivex.Single;
 import io.reactivex.SingleObserver;
+import io.reactivex.SingleSource;
+import io.reactivex.SingleTransformer;
+import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Function;
 
 /**
  * Created by amitshekhar on 27/08/16.
@@ -42,19 +46,42 @@ public class SingleObserverExampleActivity extends AppCompatActivity {
      * simple example using SingleObserver
      */
     private void doSomeWork() {
-        Single.just("Amit")
+        Single.just(1)
+                .compose(new SingleTransformer<Integer, MyInteger>() {
+                    @Override
+                    public SingleSource<MyInteger> apply(Single<Integer> upstream) {
+                        return upstream.map(new Function<Integer, MyInteger>() {
+                            @Override
+                            public MyInteger apply(@NonNull Integer integer) throws Exception {
+                                MyInteger myInteger = new MyInteger();
+                                myInteger.value = integer;
+                                return myInteger;
+                            }
+                        });
+                    }
+                })
                 .subscribe(getSingleObserver());
     }
 
-    private SingleObserver<String> getSingleObserver() {
-        return new SingleObserver<String>() {
+
+    int main() {
+//        xxxxxxx
+        return 0;
+    }
+
+    class MyInteger {
+        int value;
+    }
+
+    private SingleObserver<MyInteger> getSingleObserver() {
+        return new SingleObserver<MyInteger>() {
             @Override
             public void onSubscribe(Disposable d) {
                 Log.d(TAG, " onSubscribe : " + d.isDisposed());
             }
 
             @Override
-            public void onSuccess(String value) {
+            public void onSuccess(MyInteger value) {
                 textView.append(" onNext : value : " + value);
                 textView.append(AppConstant.LINE_SEPARATOR);
                 Log.d(TAG, " onNext value : " + value);

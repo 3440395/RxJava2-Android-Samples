@@ -12,6 +12,7 @@ import com.rxjava2.android.samples.utils.AppConstant;
 
 import io.reactivex.Observable;
 import io.reactivex.Observer;
+import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Predicate;
 
@@ -48,7 +49,16 @@ public class FilterExampleActivity extends AppCompatActivity {
         Observable.just(1, 2, 3, 4, 5, 6)
                 .filter(new Predicate<Integer>() {
                     @Override
+                    public boolean test(@NonNull Integer integer) throws Exception {
+                        Log.e(TAG,"test");
+                        return integer==4;
+                    }
+                })
+                .filter(new Predicate<Integer>() {
+                    @Override
                     public boolean test(Integer integer) throws Exception {
+                        Log.e(TAG,"test1");
+
                         return integer % 2 == 0;
                     }
                 })

@@ -17,6 +17,9 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.BiFunction;
 import io.reactivex.schedulers.Schedulers;
 
+/**
+ * reduce只会发射最后结果，scan会每次计算完都发射
+ */
 public class ScanExampleActivity extends AppCompatActivity {
 
     private static final String TAG = ScanExampleActivity.class.getSimpleName();

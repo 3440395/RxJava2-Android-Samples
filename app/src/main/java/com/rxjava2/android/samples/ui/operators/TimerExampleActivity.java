@@ -4,7 +4,9 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.rxjava2.android.samples.R;
@@ -15,10 +17,13 @@ import java.util.concurrent.TimeUnit;
 import io.reactivex.Observable;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
 /**
+ * 相当于一个定时器，用timer可以创建一个observable，会在指定时间发送一个事件（应给是发送一个0）
  * Created by amitshekhar on 27/08/16.
  */
 public class TimerExampleActivity extends AppCompatActivity {
@@ -33,7 +38,9 @@ public class TimerExampleActivity extends AppCompatActivity {
         setContentView(R.layout.activity_example);
         btn = (Button) findViewById(R.id.btn);
         textView = (TextView) findViewById(R.id.textView);
-
+        ProgressBar progressBar = new ProgressBar(this);
+        ViewGroup root = (ViewGroup) findViewById(android.R.id.content);
+        root.addView(progressBar);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -46,28 +53,37 @@ public class TimerExampleActivity extends AppCompatActivity {
      * simple example using timer to do something after 2 second
      */
     private void doSomeWork() {
-        getObservable()
-                // Run on a background thread
-                .subscribeOn(Schedulers.io())
-                // Be notified on the main thread
+
+        Observable.timer(1,TimeUnit.SECONDS)
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(getObserver());
+                .subscribe(new Consumer<Long>() {
+                    @Override
+                    public void accept(@NonNull Long aLong) throws Exception {
+                        textView.append("xxxx");
+                    }
+                });
+
+//        getObservable()
+//                // Run on a background thread
+//                .subscribeOn(Schedulers.io())
+//                // Be notified on the main thread
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(getObserver());
     }
 
-    private Observable<? extends Long> getObservable() {
-        return Observable.timer(2, TimeUnit.SECONDS);
+    private Observable getObservable() {
+        return Observable.timer(2, TimeUnit.SECONDS,Schedulers.io());
     }
 
-    private Observer<Long> getObserver() {
-        return new Observer<Long>() {
-
+    private Observer getObserver() {
+        return new Observer() {
             @Override
             public void onSubscribe(Disposable d) {
                 Log.d(TAG, " onSubscribe : " + d.isDisposed());
             }
 
             @Override
-            public void onNext(Long value) {
+            public void onNext(Object value) {
                 textView.append(" onNext : value : " + value);
                 textView.append(AppConstant.LINE_SEPARATOR);
                 Log.d(TAG, " onNext : value : " + value);

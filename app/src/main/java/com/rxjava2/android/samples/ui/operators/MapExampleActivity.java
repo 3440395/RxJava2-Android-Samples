@@ -25,6 +25,7 @@ import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 
 /**
+ * 将一个结果转换成另一个结果（但是这些结果都是被Observable包装的）
  * Created by amitshekhar on 27/08/16.
  */
 public class MapExampleActivity extends AppCompatActivity {

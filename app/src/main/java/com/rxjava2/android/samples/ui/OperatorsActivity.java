@@ -22,6 +22,7 @@ import com.rxjava2.android.samples.ui.operators.IntervalExampleActivity;
 import com.rxjava2.android.samples.ui.operators.LastOperatorExampleActivity;
 import com.rxjava2.android.samples.ui.operators.MapExampleActivity;
 import com.rxjava2.android.samples.ui.operators.MergeExampleActivity;
+import com.rxjava2.android.samples.ui.operators.MyZipActivity;
 import com.rxjava2.android.samples.ui.operators.PublishSubjectExampleActivity;
 import com.rxjava2.android.samples.ui.operators.ReduceExampleActivity;
 import com.rxjava2.android.samples.ui.operators.ReplayExampleActivity;
@@ -55,6 +56,9 @@ public class OperatorsActivity extends AppCompatActivity {
 
     public void startZipActivity(View view) {
         startActivity(new Intent(OperatorsActivity.this, ZipExampleActivity.class));
+    }
+    public void startMyZipActivity(View view) {
+        startActivity(new Intent(OperatorsActivity.this, MyZipActivity.class));
     }
 
     public void startDisposableActivity(View view) {

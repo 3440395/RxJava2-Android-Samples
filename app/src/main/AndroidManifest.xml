@@ -20,7 +20,11 @@
         </activity>
         <activity
             android:name=".ui.OperatorsActivity"
-            android:label="@string/operators" />
+            android:label="@string/operators">
+            <intent-filter>
+                <action android:name="OperatorsActivity"></action>
+            </intent-filter>
+        </activity>
         <activity
             android:name=".ui.networking.NetworkingActivity"
             android:label="@string/networking" />
@@ -39,6 +43,9 @@
         <activity
             android:name=".ui.operators.ZipExampleActivity"
             android:label="@string/zip" />
+        <activity
+            android:name=".ui.operators.MyZipActivity"
+            android:label="我的zip" />
         <activity
             android:name=".ui.operators.DisposableExampleActivity"
             android:label="@string/disposable" />

@@ -11,12 +11,15 @@ import com.rxjava2.android.samples.R;
 import com.rxjava2.android.samples.utils.AppConstant;
 
 import io.reactivex.Observable;
+import io.reactivex.ObservableEmitter;
+import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
 /**
+ * 当发送了一串事件，用take可以控制观察者只接收前几项
  * Created by amitshekhar on 27/08/16.
  */
 public class TakeExampleActivity extends AppCompatActivity {
@@ -49,12 +52,31 @@ public class TakeExampleActivity extends AppCompatActivity {
                 .subscribeOn(Schedulers.io())
                 // Be notified on the main thread
                 .observeOn(AndroidSchedulers.mainThread())
-                .take(3)
+                .take(4)
                 .subscribe(getObserver());
     }
 
     private Observable<Integer> getObservable() {
-        return Observable.just(1, 2, 3, 4, 5);
+        return Observable.create(new ObservableOnSubscribe<Integer>() {
+            @Override
+            public void subscribe(ObservableEmitter<Integer> e) throws Exception {
+                e.onNext(1);
+                e.onNext(1);
+                e.onNext(1);
+                e.onNext(1);
+                e.onNext(1);
+                e.onNext(1);
+                e.onNext(1);
+            }
+        });
+//        return Observable.just(1, 2, 3, 4, 5)
+//                .map(new Function<Integer, Integer>() {
+//                    @Override
+//                    public Integer apply(@NonNull Integer integer) throws Exception {
+//                        Log.e(TAG,"apply"+integer);
+//                        return integer;
+//                    }
+//                });
     }
 
     private Observer<Integer> getObserver() {
