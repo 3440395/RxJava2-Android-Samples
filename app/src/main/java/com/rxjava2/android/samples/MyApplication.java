@@ -25,12 +25,12 @@ public class MyApplication extends Application {
         bus = new RxBus();
     }
 
-    public RxBus bus() {
+    public RxBus rxBus() {
         return bus;
     }
 
     public void sendAutoEvent() {
-        Observable.timer(2, TimeUnit.SECONDS)
+        Observable.interval(2, TimeUnit.SECONDS)
                 .subscribe(new Consumer<Long>() {
                     @Override
                     public void accept(Long aLong) throws Exception {

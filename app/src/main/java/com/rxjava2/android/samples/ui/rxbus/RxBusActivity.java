@@ -40,7 +40,7 @@ public class RxBusActivity extends AppCompatActivity {
         button = (Button) findViewById(R.id.button);
 
         disposables.add(((MyApplication) getApplication())
-                .bus()
+                .rxBus()
                 .toObservable()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -59,7 +59,7 @@ public class RxBusActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 ((MyApplication) getApplication())
-                        .bus()
+                        .rxBus()
                         .send(new Events.TapEvent());
             }
         });

@@ -18,6 +18,10 @@ public class RxBus {
         bus.onNext(o);
     }
 
+    /**
+     * 得到被观察者（事件发布者）
+     * @return
+     */
     public Observable<Object> toObservable() {
         return bus;
     }
