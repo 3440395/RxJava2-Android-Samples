@@ -21,6 +21,7 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
 /**
+ * throttleLast 表示在指定时间内仅发射最后一个
  * Created by amitshekhar on 22/12/16.
  */
 

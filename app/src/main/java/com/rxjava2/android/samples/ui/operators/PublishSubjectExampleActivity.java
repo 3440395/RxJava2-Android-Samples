@@ -15,6 +15,7 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.subjects.PublishSubject;
 
 /**
+ * observer只可以接收到订阅之后发送的消息  如下面 第一个observer可以接受到他订阅之后的，第二个也是接收到他订阅之后的。
  * Created by amitshekhar on 17/12/16.
  */
 

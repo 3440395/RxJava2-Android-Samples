@@ -15,6 +15,8 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.subjects.BehaviorSubject;
 
 /**
+ *
+ * 观察者订阅之后会接收到之前的最后一个消息，之后的就一样了
  * Created by amitshekhar on 17/12/16.
  */
 
@@ -23,6 +25,7 @@ public class BehaviorSubjectExampleActivity extends AppCompatActivity {
     private static final String TAG = BehaviorSubjectExampleActivity.class.getSimpleName();
     Button btn;
     TextView textView;
+    private BehaviorSubject<Integer> source;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +40,15 @@ public class BehaviorSubjectExampleActivity extends AppCompatActivity {
                 doSomeWork();
             }
         });
+        btn.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                source.subscribe(getSecondObserver());
+                source.onNext(4);
+                source.onComplete();
+                return true;
+            }
+        });
     }
 
     /* When an observer subscribes to a BehaviorSubject, it begins by emitting the item most
@@ -47,7 +59,7 @@ public class BehaviorSubjectExampleActivity extends AppCompatActivity {
      */
     private void doSomeWork() {
 
-        BehaviorSubject<Integer> source = BehaviorSubject.create();
+        source = BehaviorSubject.create();
 
         source.subscribe(getFirstObserver()); // it will get 1, 2, 3, 4 and onComplete
 
@@ -58,10 +70,7 @@ public class BehaviorSubjectExampleActivity extends AppCompatActivity {
         /*
          * it will emit 3(last emitted), 4 and onComplete for second observer also.
          */
-        source.subscribe(getSecondObserver());
 
-        source.onNext(4);
-        source.onComplete();
 
     }
 

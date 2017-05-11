@@ -22,6 +22,7 @@ import io.reactivex.schedulers.Schedulers;
 
 
 /**
+ * throttleFirst 表示在指定时间内仅发射第一个
  * Created by threshold on 2017/1/11.
  */
 
@@ -53,7 +54,7 @@ public class ThrottleFirstExampleActivity extends AppCompatActivity {
     */
     private void doSomeWork() {
         getObservable()
-                .throttleFirst(500, TimeUnit.MILLISECONDS)
+                .throttleFirst(0, TimeUnit.MILLISECONDS)
                 // Run on a background thread
                 .subscribeOn(Schedulers.io())
                 // Be notified on the main thread
@@ -68,6 +69,8 @@ public class ThrottleFirstExampleActivity extends AppCompatActivity {
                 // send events with simulated time wait
                 Thread.sleep(0);
                 emitter.onNext(1); // skip
+                Thread.sleep(1);
+
                 emitter.onNext(2); // deliver
                 Thread.sleep(505);
                 emitter.onNext(3); // skip

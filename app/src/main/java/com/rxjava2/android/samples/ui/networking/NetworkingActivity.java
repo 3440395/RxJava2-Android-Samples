@@ -20,8 +20,10 @@ import io.reactivex.Observable;
 import io.reactivex.ObservableSource;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.BiFunction;
+import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 import io.reactivex.functions.Predicate;
 import io.reactivex.schedulers.Schedulers;
@@ -44,43 +46,55 @@ public class NetworkingActivity extends AppCompatActivity {
      * Map Operator Example
      */
     public void map(View view) {
-        Log.e(TAG,"map");
+        Log.e(TAG, "map");
         Rx2AndroidNetworking.get("https://fierce-cove-29863.herokuapp.com/getAnUser/{userId}")
                 .addPathParameter("userId", "1")
                 .build()
                 .getObjectObservable(ApiUser.class)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .map(new Function<ApiUser, User>() {
+                .map(new Function<ApiUser, String>() {
                     @Override
-                    public User apply(ApiUser apiUser) throws Exception {
-                        // here we get ApiUser from server
-                        User user = new User(apiUser);
-                        // then by converting, we are returning user
-                        return user;
+                    public String apply(@NonNull ApiUser apiUser) throws Exception {
+                        return apiUser.firstname;
                     }
                 })
-                .subscribe(new Observer<User>() {
+                .subscribe(new Consumer<String>() {
                     @Override
-                    public void onSubscribe(Disposable d) {
-
-                    }
-
-                    @Override
-                    public void onNext(User user) {
-                        Log.d(TAG, "user : " + user.toString());
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        Utils.logError(TAG, e);
-                    }
-
-                    @Override
-                    public void onComplete() {
-                        Log.d(TAG, "onComplete");
+                    public void accept(@NonNull String apiUser) throws Exception {
+                        Log.e(TAG, "accept" + apiUser);
                     }
                 });
+//                .map(new Function<ApiUser, User>() {
+//                    @Override
+//                    public User apply(ApiUser apiUser) throws Exception {
+//                        // here we get ApiUser from server
+//                        User user = new User(apiUser);
+//                        // then by converting, we are returning user
+//                        return user;
+//                    }
+//                })
+//                .subscribe(new Observer<User>() {
+//                    @Override
+//                    public void onSubscribe(Disposable d) {
+//
+//                    }
+//
+//                    @Override
+//                    public void onNext(User user) {
+//                        Log.e(TAG, "user : " + user.toString());
+//                    }
+//
+//                    @Override
+//                    public void onError(Throwable e) {
+//                        Utils.logError(TAG, e);
+//                    }
+//
+//                    @Override
+//                    public void onComplete() {
+//                        Log.e(TAG, "onComplete");
+//                    }
+//                });
     }
 
 
@@ -133,9 +147,9 @@ public class NetworkingActivity extends AppCompatActivity {
                     @Override
                     public void onNext(List<User> users) {
                         // do anything with user who loves both
-                        Log.d(TAG, "userList size : " + users.size());
+                        Log.e(TAG, "userList size : " + users.size());
                         for (User user : users) {
-                            Log.d(TAG, "user : " + user.toString());
+                            Log.e(TAG, "user : " + user.toString());
                         }
                     }
 
@@ -146,7 +160,7 @@ public class NetworkingActivity extends AppCompatActivity {
 
                     @Override
                     public void onComplete() {
-                        Log.d(TAG, "onComplete");
+                        Log.e(TAG, "onComplete");
                     }
                 });
     }
@@ -206,7 +220,7 @@ public class NetworkingActivity extends AppCompatActivity {
                     @Override
                     public void onNext(User user) {
                         // only the user who is following me comes here one by one
-                        Log.d(TAG, "user : " + user.toString());
+                        Log.e(TAG, "user : " + user.toString());
                     }
 
                     @Override
@@ -216,7 +230,7 @@ public class NetworkingActivity extends AppCompatActivity {
 
                     @Override
                     public void onComplete() {
-                        Log.d(TAG, "onComplete");
+                        Log.e(TAG, "onComplete");
                     }
                 });
     }
@@ -246,7 +260,7 @@ public class NetworkingActivity extends AppCompatActivity {
                     @Override
                     public void onNext(User user) {
                         // // only four user comes here one by one
-                        Log.d(TAG, "user : " + user.toString());
+                        Log.e(TAG, "user : " + user.toString());
                     }
 
                     @Override
@@ -256,7 +270,7 @@ public class NetworkingActivity extends AppCompatActivity {
 
                     @Override
                     public void onComplete() {
-                        Log.d(TAG, "onComplete");
+                        Log.e(TAG, "onComplete");
                     }
                 });
     }
@@ -299,12 +313,12 @@ public class NetworkingActivity extends AppCompatActivity {
                     @Override
                     public void onNext(UserDetail userDetail) {
                         // do anything with userDetail
-                        Log.d(TAG, "userDetail : " + userDetail.toString());
+                        Log.e(TAG, "userDetail : " + userDetail.toString());
                     }
 
                     @Override
                     public void onComplete() {
-                        Log.d(TAG, "onComplete");
+                        Log.e(TAG, "onComplete");
                     }
                 });
     }
@@ -360,7 +374,7 @@ public class NetworkingActivity extends AppCompatActivity {
                     @Override
                     public void onComplete() {
                         // do something onCompleted
-                        Log.d(TAG, "onComplete");
+                        Log.e(TAG, "onComplete");
                     }
 
                     @Override
@@ -379,8 +393,8 @@ public class NetworkingActivity extends AppCompatActivity {
                         // here we are getting the userDetail for the corresponding user one by one
                         UserDetail userDetail = pair.first;
                         User user = pair.second;
-                        Log.d(TAG, "user : " + user.toString());
-                        Log.d(TAG, "userDetail : " + userDetail.toString());
+                        Log.e(TAG, "user : " + user.toString());
+                        Log.e(TAG, "userDetail : " + userDetail.toString());
                     }
                 });
     }

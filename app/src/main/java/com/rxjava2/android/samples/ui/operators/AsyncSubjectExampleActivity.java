@@ -15,6 +15,7 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.subjects.AsyncSubject;
 
 /**
+ * 只能接收到最后一个observer订阅之后发的消息，经验证，omcomplete之后开始发送
  * Created by amitshekhar on 17/12/16.
  */
 
@@ -23,6 +24,7 @@ public class AsyncSubjectExampleActivity extends AppCompatActivity {
     private static final String TAG = AsyncSubjectExampleActivity.class.getSimpleName();
     Button btn;
     TextView textView;
+    private AsyncSubject<Integer> source;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +39,16 @@ public class AsyncSubjectExampleActivity extends AppCompatActivity {
                 doSomeWork();
             }
         });
+        btn.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                 /*
+         * it will emit 4 and onComplete for second observer also.
+         */
+                source.onComplete();
+                return true;
+            }
+        });
     }
 
     /* An AsyncSubject emits the last value (and only the last value) emitted by the source
@@ -45,7 +57,7 @@ public class AsyncSubjectExampleActivity extends AppCompatActivity {
      */
     private void doSomeWork() {
 
-        AsyncSubject<Integer> source = AsyncSubject.create();
+        source = AsyncSubject.create();
 
         source.subscribe(getFirstObserver()); // it will emit only 4 and onComplete
 
@@ -53,13 +65,9 @@ public class AsyncSubjectExampleActivity extends AppCompatActivity {
         source.onNext(2);
         source.onNext(3);
 
-        /*
-         * it will emit 4 and onComplete for second observer also.
-         */
         source.subscribe(getSecondObserver());
 
         source.onNext(4);
-        source.onComplete();
 
     }
 

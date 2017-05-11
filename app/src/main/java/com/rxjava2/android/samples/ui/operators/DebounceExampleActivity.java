@@ -21,6 +21,7 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
 /**
+ * debounce表示多少时间后才会发送数据，如果第二次有发送给了数据，第一次就会被抛弃
  * Created by amitshekhar on 22/12/16.
  */
 
